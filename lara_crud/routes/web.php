@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/login', [UserAuthController::class,'login'])->name('login')->middleware('AlreadyLoggedIn');
+Route::get('/register', [UserAuthController::class,'register'])->middleware('AlreadyLoggedIn');
+Route::post('/createUser', [UserAuthController::class,'createUser'])->name('auth.create');
+Route::post('/checkUser', [UserAuthController::class,'checkUser'])->name('auth.check');
+
+
+Route::get('/profile', [UserAuthController::class,'userProfile'])->name('profile')->middleware('isLogged');
+Route::get('/logout', [UserAuthController::class,'logout'])->name('logout');
